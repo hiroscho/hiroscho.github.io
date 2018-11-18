@@ -3,8 +3,14 @@
 	<head>
 		<title>hiroscho.github.io</title>
 		<meta charset="UTF-8">
+		<script src="DamageCalc.js"/>
+		<script>
+			function myFunction() {
+			   document.getElementById("demo").innerHTML = getBaseDamage();
+			}
+		</script>
 	</head>
 	<body>
-		<p>Something</p>
+		<p id="demo"></p>
 	</body>
 </html>
