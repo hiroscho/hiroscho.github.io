@@ -9,7 +9,7 @@ var DamageCalc = function() {
 			specialPiercing: 0
 		},
 		
-		getDamageIncreaseFactor: function(double val) {
+		getDamageIncreaseFactor: function(val) {
 			if(val < 0)
 				return 1;
 			else
@@ -17,26 +17,25 @@ var DamageCalc = function() {
 		},
 
 		getEnemyDefenseFactor: function() {
-			return 1/DamageCalc.data.enemyDefense;
+			return 1/this.data.enemyDefense;
 		},
 
-		getPierceFactor: function(double val) {
+		getPierceFactor: function(val) {
 			if(val < 0)
 				return 1;
 			else
 				return 1/(1-val);
 		},
 
-		getSpecialPiercingFactor: function(double val) {
+		getSpecialPiercingFactor: function(val) {
 			if(val < 0)
-				return (1500 - DamageCalc.data.enemyResistance)/1500;
+				return (1500 - this.data.enemyResistance)/1500;
 			else
-				return (1500 - Math.max(DamageCalc.data.enemyResistance - (val * 15), 0))/1500;
+				return (1500 - Math.max(this.data.enemyResistance - (val * 15), 0))/1500;
 		},
 
 		getBaseDamage: function() {
-			return DamageCalc.data.skillDamage * DamageCalc.getDamageIncreaseFactor(0) * DamageCalc.getEnemyDefenseFactor() * DamageCalc.getPierceFactor(0) * DamageCalc.getSpecialPiercingFactor(0);
+			return this.data.skillDamage * this.getDamageIncreaseFactor(0) * this.getEnemyDefenseFactor() * this.getPierceFactor(0) * this.getSpecialPiercingFactor(0);
 		}
 	}
-};
-	
+}
