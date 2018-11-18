@@ -1,37 +1,42 @@
-var skillDamage = 100000;
-var damageIncrease = 0;
-var enemyDefense = 250;
-var pierce = 0;
-var enemyResistance = 250;
-var specialPiercing = 0;
-var baseDamage = (skillDamage * (1 + (damageIncrease/100)))
+var DamageCalc = {
+	data: {
+		skillDamage: 100000,
+		damageIncrease: 0,
+		enemyDefense: 250,
+		pierce: 0,
+		enemyResistance: 250,
+		specialPiercing: 0,
+		baseDamage: (skillDamage * (1 + (damageIncrease/100)))
+	},
+	
+	getDamageIncreaseFactor: function(double val) {
+		if(val < 0)
+			return 1;
+		else
+			return 1 + val;
+	},
 
-function getDamageIncreaseFactor(double val) {
-	if(val < 0)
-		return 1;
-	else
-		return 1 + val;
-}
+	getEnemyDefenseFactor: function() {
+		return 1/DamageCalc.data.enemyDefense;
+	},
 
-function getEnemyDefenseFactor() {
-	return 1/enemyDefense;
-}
+	getPierceFactor: function(double val) {
+		if(val < 0)
+			return 1;
+		else
+			return 1/(1-val);
+	},
 
-function getPierceFactor(double val) {
-	if(val < 0)
-		return 1;
-	else
-		return 1/(1-val);
-}
+	getSpecialPiercingFactor: function(double val) {
+		if(val < 0)
+			return (1500 - DamageCalc.data.enemyResistance)/1500;
+		else
+			return (1500 - Math.max(DamageCalc.data.enemyResistance - (val * 15), 0))/1500;
+	},
 
-function getSpecialPiercingFactor(double val) {
-	if(val < 0)
-		return (1500 - enemyResistance)/1500;
-	else
-		return (1500 - Math.max(enemyResistance - (val * 15), 0))/1500;
-}
+	getBaseDamage: function() {
+		return DamageCalc.data.skillDamage * DamageCalc.getDamageIncreaseFactor(0) * DamageCalc.getEnemyDefenseFactor() * DamageCalc.getPierceFactor(0) * DamageCalc.getSpecialPiercingFactor(0);
+	}
 
-function getBaseDamage() {
-	return skillDamage * getDamageIncreaseFactor(0) * getEnemyDefenseFactor() * getPierceFactor(0) * getSpecialPiercingFactor(0);
-}
+};
 	
